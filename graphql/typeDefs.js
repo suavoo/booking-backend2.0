@@ -10,8 +10,9 @@ module.exports = gql`
         getProject(projectId: ID!): Project
         getTasks: [Task]
         getTask(projectId: ID!, taskId: ID!): Task
-        getBlueprints: [Blueprint]
-        getBlueprint(blueprintId: ID!): Blueprint
+        getUserTemplates: [Template]
+        getTemplates: [Template]
+        getTemplate(templateId: ID!): Template 
     }
     type Artist {
         id: ID!
@@ -78,44 +79,36 @@ module.exports = gql`
         token: String!
         createdAt: String!
     }
-}
-    type Blueprint {
+    type Template {
         id: ID!
-        access: {
-            users: String!
-            userId: ID
-        }
+        userId: ID
         createdAt: String!
-        projectType: String!
         title: String!
-        input1: {
-            input: String,
-            collection: String
-        }
-        input2: {
-            input: String,
-            collection: String
-        },
-        input3: {
-            input: String,
-            collection: String
-        }
-        input4: {
-            input: String,
-            collection: String
-        }
-        input5: {
-            input: String,
-            collection: String
-        }
-        input6: {
-            input: String,
-            collection: String
-        }
-        input7: {
-            input: String,
-            collection: String
-        }    
+        input1Type: String!
+        input1Collection: String!
+        input2Type: String
+        input2Collection: String
+        input3Type: String
+        input3Collection: String
+        input4Type: String
+        input4Collection: String
+        input5Type: String
+        input5Collection: String
+        input6Type: String
+        input6Collection: String
+        input7Type: String
+        input8Collection: String
+        tasks: [TemplateTask]
+    }
+    type TemplateTask {
+        id: ID!
+        templateId: ID!
+        name: String!
+        createdAt: String!
+        days: String
+        from: String
+        beforeOrAfter: String
+    }
     input RegisterInput {
         email: String!
         password: String!
@@ -162,6 +155,30 @@ module.exports = gql`
         duedate: String!
         note: String 
     }
+    input TemplateInput {
+        title: String!
+        input1Type: String!
+        input1Collection: String!
+        input2Type: String
+        input2Collection: String
+        input3Type: String
+        input3Collection: String
+        input4Type: String
+        input4Collection: String
+        input5Type: String
+        input5Collection: String
+        input6Type: String
+        input6Collection: String
+        input7Type: String
+        input7Collection: String
+    }
+    input TemplateTaskInput {
+        templateId: ID!
+        name: String!
+        days: String
+        from: String
+        beforeOrAfter: String
+    }
     type Mutation {
         register(registerInput: RegisterInput) : User!
         login(email: String!, password: String!) : User!
@@ -173,9 +190,9 @@ module.exports = gql`
         deleteProject(projectId: ID!): String!
         createTask(taskInput: TaskInput): Project!
         deleteTask(projectId: ID!, taskId: ID!): Project!
-        createBlueprint(blueprinInput: BlueprintInput): Blueprint!
-        deleteBlueprint(blueprintId: ID!): String!
-        createBlueprintTask(blueprintTaskInput: BlueprintTaskInput): BlueprintTask!
-        deleteBlueprintTask(blueprintTaskId: ID!): String!
+        createTemplate(templateInput: TemplateInput): Template!
+        deleteTemplate(templateId: ID!): String!
+        createTemplateTask(templateTaskInput: TemplateTaskInput): Template!
+        deleteTemplateTask(templateId: ID!, templateTaskId: ID!): String!
     }
 `;
