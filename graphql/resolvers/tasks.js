@@ -37,26 +37,11 @@ module.exports = {
     Mutation: {
         createTask: async (_, { taskInput: { projectId, name, done, duedate, note } }, context) => {
             const user = checkAuth(context);
-            if (name.trim() === '') {
-                throw new UserInputError('Empty input', {
-                    errors: {
-                        name: 'Task name must not be empty'
-                    }
-                })
-            }
-
-            if (duedate.trim() === '') {
-                throw new UserInputError('Empty input', {
-                    errors: {
-                        duedate: 'Task duedate must not be empty'
-                    }
-                })
-            }
 
             const project = await Project.findById(projectId);
 
             if (project) { 
-                project.tasks.unshift({
+                project.tasks.push({
                     name,
                     projectId,
                     createdAt: new Date().toISOString(),

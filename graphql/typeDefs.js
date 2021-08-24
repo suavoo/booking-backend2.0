@@ -97,7 +97,7 @@ module.exports = gql`
         input6Type: String
         input6Collection: String
         input7Type: String
-        input8Collection: String
+        input7Collection: String
         tasks: [TemplateTask]
     }
     type TemplateTask {
